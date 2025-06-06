@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Math Tables Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      color: #333;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    #question {
+      font-size: 24px;
+      margin: 20px 0;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      font-size: 18px;
+      width: 100px;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    #result {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    select {
+      font-size: 16px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Math Tables Quiz</h1>
+  <p>Select a table:</p>
+  <select id="tableSelect">
+    <option value="">-- Select --</option>
+    <script>
+      for (let i = 2; i <= 20; i++) {
+        document.write(`<option value="${i}">Table of ${i}</option>`);
+      }
+    </script>
+  </select>
+  <button onclick="startQuiz()">Start</button>
+
+  <div id="quizBox" style="display:none;">
+    <p id="question"></p>
+    <input type="number" id="answer" placeholder="Your answer"/>
+    <br>
+    <button onclick="checkAnswer()">Submit</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    let currentTable = null;
+    let num = 1;
+
+    function startQuiz() {
+      const selected = document.getElementById("tableSelect").value;
+      if (!selected) {
+        alert("Please select a table!");
+        return;
+      }
+      currentTable = parseInt(selected);
+      num = Math.floor(Math.random() * 10) + 1;
+      document.getElementById("quizBox").style.display = "block";
+      document.getElementById("result").innerText = "";
+      document.getElementById("answer").value = "";
+      document.getElementById("question").innerText = `What is ${currentTable} × ${num}?`;
+    }
+
+    function checkAnswer() {
+      const userAns = parseInt(document.getElementById("answer").value);
+      const correctAns = currentTable * num;
+      if (userAns === correctAns) {
+        document.getElementById("result").innerHTML = `<span style="color:green;">✅ Correct!</span>`;
+      } else {
+        document.getElementById("result").innerHTML = `<span style="color:red;">❌ Wrong! Correct answer is ${correctAns}</span>`;
+      }
+      setTimeout(() => {
+        startQuiz();
+      }, 1500);
+    }
+  </script>
+
+</body>
+</html>
